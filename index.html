@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" type="image/png" href="Image/3rdicon.png">
+    <link rel="apple-touch-icon" href="Image/3rdicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MONARC 👑</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;600;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'monarc-purple-start': '#6B1FFF',
+                        'monarc-purple-end': '#A14BFF',
+                        'monarc-cyan': '#35FFD2',
+                        'monarc-green': '#00F0C6',
+                        'monarc-pink': '#FF4D9E',
+                        'monarc-gold': '#FFD166',
+                        'monarc-dark': '#0B0B0F',
+                        'monarc-text': '#D7D7E0',
+                        'monarc-heading': '#F4F5F7',
+                    },
+                    fontFamily: {
+                        'heading': ['Bangers', 'cursive'],
+                        'body': ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'neon': '0 0 10px rgba(107, 31, 255, 0.5), 0 0 20px rgba(53, 255, 210, 0.3)',
+                        'neon-text': '0 6px 24px rgba(107,31,255,0.4)',
+                        'card-glow': '0 0 15px rgba(107, 31, 255, 0.2)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Animations & Effects */
+        body {
+            background-color: #0B0B0F;
+            color: #D7D7E0;
+            overflow-x: hidden;
+        }
+
+        /* Scanlines Effect */
+        .scanlines {
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1));
+            background-size: 100% 4px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.3;
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .animate-float-delayed {
+            animation: float 7s ease-in-out infinite 1s;
+        }
+
+        /* Wiggle (Chaos) Animation */
+        @keyframes wiggle {
+
+            0%,
+            100% {
+                transform: rotate(-2deg);
+            }
+
+            50% {
+                transform: rotate(2deg);
+            }
+        }
+
+        .hover-wiggle:hover {
+            animation: wiggle 0.4s ease-in-out infinite;
+            cursor: pointer;
+        }
+
+        /* Button Gradient Animation */
+        .btn-portal {
+            background: linear-gradient(90deg, #6B1FFF, #A14BFF, #6B1FFF);
+            background-size: 200% auto;
+            transition: 0.5s;
+            border: 2px solid #000;
+        }
+
+        .btn-portal:hover {
+            background-position: right center;
+            box-shadow: 0 0 20px #A14BFF;
+            transform: scale(1.05);
+        }
+
+        /* Outline Text */
+        .text-stroke {
+            -webkit-text-stroke: 1.5px black;
+            text-shadow: 4px 4px 0px #000;
+        }
+
+        /* Card Style */
+        .comic-panel {
+            border: 3px solid #000;
+            box-shadow: 8px 8px 0px #6B1FFF;
+            transition: transform 0.2s;
+            background: #15151e;
+        }
+
+        .comic-panel:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 12px 12px 0px #35FFD2;
+        }
+
+        /* Monarc Meme Section Styles */
+        /* Container chính của section */
+        .monarc-meme-section {
+            background-color: #1a1a1a;
+            /* Màu nền tối để meme nổi bật */
+            padding: 60px 0;
+            overflow: hidden;
+            /* Ẩn phần bị tràn ra ngoài */
+            position: relative;
+            width: 100%;
+        }
+
+        .meme-title {
+            text-align: center;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            /* Thay bằng font dự án của anh */
+            font-size: 2rem;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Thanh trượt chứa tất cả ảnh */
+        .meme-marquee {
+            display: flex;
+            width: max-content;
+            /* Quan trọng: độ rộng dựa trên nội dung */
+            animation: scrollLeft 20s linear infinite;
+            /* Tốc độ chạy 20s */
+        }
+
+        /* Khi di chuột vào thì dừng lại để người xem kịp nhìn */
+        .meme-marquee:hover {
+            animation-play-state: paused;
+        }
+
+        /* Style cho từng khung ảnh meme */
+        .meme-card {
+            width: 250px;
+            /* Kích thước ảnh cố định */
+            height: auto;
+            margin: 0 30px;
+            /* Khoảng cách giữa các ảnh */
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            /* Không cho ảnh bị co lại */
+            position: relative;
+        }
+
+        .meme-card img {
+            width: 100%;
+            border-radius: 12px;
+            /* border: 4px solid #fff; */
+            /* Removed border */
+            box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.5);
+            /* Bóng đổ cứng */
+            display: block;
+        }
+
+        /* --- PHẦN TẠO CẢM GIÁC "LỆCH" (CHAOS) --- */
+
+        /* Ảnh lẻ: Nghiêng sang phải, đẩy xuống một chút */
+        .meme-card:nth-child(odd) {
+            transform: rotate(3deg) translateY(10px);
+        }
+
+        /* Ảnh chẵn: Nghiêng sang trái, đẩy lên một chút */
+        .meme-card:nth-child(even) {
+            transform: rotate(-3deg) translateY(-10px);
+        }
+
+        /* Ảnh thứ 3, 7, 11...: Nghiêng nhiều hơn cho bớt lặp lại */
+        .meme-card:nth-child(4n + 3) {
+            transform: rotate(5deg) scale(1.05);
+            z-index: 2;
+        }
+
+        /* Intro Portal */
+        #intro-portal {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background-color: #0B0B0F;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1s ease-out;
+        }
+
+        .portal-ring {
+            width: 150px;
+            height: 150px;
+            border: 4px solid transparent;
+            border-top-color: #6B1FFF;
+            border-right-color: #35FFD2;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 50px rgba(107, 31, 255, 0.5);
+        }
+
+        .portal-ring::before {
+            content: '';
+            position: absolute;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 4px solid transparent;
+            border-top-color: #FF4D9E;
+            border-left-color: #FFD166;
+            border-radius: 50%;
+            animation: spin-reverse 1.5s linear infinite;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes spin-reverse { 0% { transform: rotate(0deg); } 100% { transform: rotate(-360deg); } }
+
+        /* Animation chạy từ phải qua trái */
+        @keyframes scrollLeft {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+                /* Dịch chuyển 50% vì ta nhân đôi nội dung bên dưới */
+            }
+        }
+    </style>
+</head>
+
+<body class="font-body selection:bg-monarc-cyan selection:text-black">
+    
+    <!-- Intro Portal Overlay -->
+    <div id="intro-portal">
+        <div class="portal-ring"></div>
+    </div>
+    
+
+    <div class="scanlines"></div>
+
+    <section class="relative min-h-screen flex items-center overflow-hidden border-b-4 border-black">
+        <div class="absolute inset-0 z-0 opacity-40 bg-[url('Image/herobackground.png')] bg-cover bg-center"></div>
+
+        <div class="absolute inset-0 z-0 flex items-center justify-center opacity-60 mix-blend-screen">
+            <div
+                class="w-[800px] h-[800px] rounded-full bg-gradient-to-r from-monarc-purple-start to-monarc-cyan blur-[100px] animate-pulse">
+            </div>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10 grid md:grid-cols-2 gap-8 items-center h-full pt-20">
+            <div class="md:pl-[8%]">
+                <h1
+                    class="font-heading text-6xl md:text-8xl text-monarc-heading text-stroke leading-none mb-4 drop-shadow-lg">
+                    THE ACCIDENTAL <br><span class="text-monarc-cyan">MONARC </span>
+                </h1>
+                <h2 class="text-xl md:text-2xl text-monarc-text mb-8 font-bold border-l-4 border-monarc-pink pl-4">
+                    The degen who slipped through a portal and became King of the Monadverse.
+                </h2>
+
+                <div class="flex flex-col sm:flex-row gap-4 mb-4">
+                    <button
+                        class="btn-portal px-8 py-4 rounded-xl text-white font-heading text-2xl tracking-wide uppercase">
+                        Enter the Portal
+                    </button>
+                    <button
+                        class="px-8 py-4 rounded-xl border-2 border-monarc-cyan text-monarc-cyan font-heading text-2xl hover:bg-monarc-cyan hover:text-black transition-all uppercase">
+                        BUY $MONARC
+                    </button>
+                </div>
+
+                <p
+                    class="text-[10px] text-monarc-cyan uppercase tracking-widest opacity-80 font-mono bg-black/50 inline-block px-2 py-1 rounded">
+                    ⚠️ CAUTION: Portal may cause increased TPS and involuntary enlightenment.
+                </p>
+            </div>
+
+            <div class="relative flex justify-center animate-float">
+                <div class="w-[400px] h-[400px] md:w-[600px] md:h-[600px] relative">
+                    <div class="absolute inset-0 bg-monarc-purple-end blur-[60px] opacity-50 rounded-full"></div>
+                    <img src="Image/hero.png" alt="Joe the Monarc sitting on a neon floating ring"
+                        class="w-full h-full object-contain relative z-10 drop-shadow-[0_0_35px_rgba(53,255,210,0.5)] transform scale-[2]">
+                    <div class="absolute top-10 right-20 text-6xl animate-bounce"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-[#15151e] relative">
+        <div class="container mx-auto px-6">
+            <h2 class="font-heading text-5xl text-center text-white text-stroke mb-16">ORIGIN STORY</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="comic-panel p-6 flex flex-col">
+                    <div class="h-48 bg-gray-800 mb-4 rounded border-2 border-black overflow-hidden relative group">
+                        <img src="Image/1st.jpg" alt="Gemini generated"
+                            class="absolute inset-0 w-full h-full object-cover">
+                        <div
+                            class="absolute bottom-2 right-2 bg-white text-black font-heading p-2 border-2 border-black text-xs rounded-tl-xl">
+                            "I did NOT mean to fix that."
+                        </div>
+                    </div>
+                    <h3 class="font-heading text-2xl text-monarc-pink mb-2">Rug Rescue Gone Wrong</h3>
+                    <p class="text-sm text-gray-400">Joe trips into a memecoin dragon and accidentally coughs out a
+                        smart-contract hotfix. Heroic? Kinda.</p>
+                </div>
+
+                <div class="comic-panel p-6 flex flex-col md:-mt-8">
+                    <div class="h-48 bg-gray-800 mb-4 rounded border-2 border-black overflow-hidden relative">
+                        <div class="absolute inset-0 bg-monarc-cyan flex items-center justify-center text-4xl">
+                            <img src="Image/2nd.png" alt="Gemini generated"
+                                class="absolute inset-0 w-full h-full object-cover">
+                        </div>
+                        <div
+                            class="absolute bottom-2 left-2 bg-white text-black font-heading p-2 border-2 border-black text-xs rounded-tr-xl">
+                            "I’m not dancing, I’m panicking!"
+                        </div>
+                    </div>
+                    <h3 class="font-heading text-2xl text-monarc-green mb-2">Validator Dance-Off</h3>
+                    <p class="text-sm text-gray-400">Joe flails, validators sync; block speed spikes. No one knows how
+                        it happened.</p>
+                </div>
+
+                <div class="comic-panel p-6 flex flex-col">
+                    <div class="h-48 bg-gray-800 mb-4 rounded border-2 border-black overflow-hidden relative">
+                        <div class="absolute inset-0 bg-monarc-gold flex items-center justify-center text-4xl">
+                            <img src="Image/3rd.png" alt="Gemini generated"
+                                class="absolute inset-0 w-full h-full object-cover">
+                        </div>
+                        <div
+                            class="absolute bottom-2 right-2 bg-white text-black font-heading p-2 border-2 border-black text-xs rounded-tl-xl">
+                            "Ketchup counts, right?"
+                        </div>
+                    </div>
+                    <h3 class="font-heading text-2xl text-monarc-gold mb-2">Meownad Endorsement</h3>
+                    <p class="text-sm text-gray-400">A two-legged cosmic cat hands Joe a contract. He signs with
+                        ketchup. Cats approve.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="relative py-24 border-y-4 border-black overflow-hidden">
+        <div class="absolute inset-0 bg-[url('Image/image2.jpeg')] bg-cover bg-center opacity-30"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-monarc-dark to-transparent"></div>
+
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <div class="animate-float-delayed inline-block mb-6">
+                <span class="text-8xl filter drop-shadow-[0_0_20px_#FFD166]">👑</span>
+            </div>
+            <h2 class="font-heading text-6xl md:text-8xl text-white text-stroke mb-2">CROWN THE CHAOS</h2>
+            <p class="text-xl md:text-2xl text-monarc-cyan font-bold mb-8 max-w-2xl mx-auto">
+                MONARC — King of Degens, Breaker of Rugs, Protector of Purple Vibes.
+            </p>
+
+            <button onclick="alert('Connecting to Monad Chain... (Demo Only)')"
+                class="bg-monarc-gold text-black border-4 border-white font-heading text-3xl px-10 py-4 rounded-full shadow-neon hover:scale-110 transition-transform">
+                Claim Monarc Badge (Free)
+            </button>
+            <p class="mt-4 text-xs text-gray-400 italic">Badge may or may not emit cosmic noises.</p>
+        </div>
+    </section>
+
+    <section class="py-20 bg-monarc-dark">
+        <div class="container mx-auto px-6 grid md:grid-cols-3 gap-8 text-center">
+            <div class="p-6 border border-gray-800 rounded-xl hover:bg-white/5 transition">
+                <img src="Image/2ndicon.png" alt="Gas Icon" class="w-16 h-16 mb-4 mx-auto object-contain">
+                <h3 class="font-heading text-2xl text-monarc-cyan mb-2">Gas that doesn’t cry</h3>
+                <p class="text-gray-400">Interdimensional micro-fees for max degen velocity.</p>
+            </div>
+            <div class="p-6 border border-gray-800 rounded-xl hover:bg-white/5 transition">
+                <img src="Image/1sticon.png" alt="Blocks Icon" class="w-16 h-16 mb-4 mx-auto object-contain">
+                <h3 class="font-heading text-2xl text-monarc-pink mb-2">Blocks that blush</h3>
+                <p class="text-gray-400">Low latency. High chaos. Pure throughput.</p>
+            </div>
+            <div class="p-6 border border-gray-800 rounded-xl hover:bg-white/5 transition">
+                <img src="Image/3rdicon.png" alt="Meme Icon" class="w-16 h-16 mb-4 mx-auto object-contain">
+                <h3 class="font-heading text-2xl text-monarc-gold mb-2">Memes with consensus</h3>
+                <p class="text-gray-400">Community-driven meme governance.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-gradient-to-r from-[#1a0b2e] to-[#0B0B0F] border-t border-gray-800">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center gap-12">
+            <div class="md:w-1/2">
+                <div
+                    class="w-full h-80 bg-purple-900/30 rounded-2xl border-2 border-monarc-purple-start relative overflow-hidden flex items-center justify-center">
+                    <div class="absolute inset-0 bg-[url('Image/chaos.png')] bg-cover bg-center bg-no-repeat">
+                    </div>
+                </div>
+            </div>
+            <div class="md:w-1/2">
+                <h2 class="font-heading text-5xl text-white mb-6">LIBRARY OF CHAOS</h2>
+                <p class="text-xl text-gray-300 leading-relaxed mb-6">
+                    Welcome to the Monarc Archives — floating records of every rug, every oops, and every meme that
+                    shaped the Monadverse.
+                </p>
+                <a href="ecosystem.html" target="_blank" class="text-monarc-cyan font-bold hover:underline underline-offset-4">Explore the Archives
+                    &rarr;</a>
+            </div>
+        </div>
+    </section>
+    <section class="py-24 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[#0B0B0F] z-0"></div>
+        <div
+            class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 z-0">
+        </div>
+
+        <div
+            class="hidden md:block absolute top-1/2 left-0 w-full h-2 bg-gradient-to-r from-monarc-purple-start via-monarc-cyan to-monarc-purple-end blur-sm z-0 transform -translate-y-1/2 opacity-50">
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <h2
+                    class="font-heading text-5xl md:text-7xl text-monarc-heading text-stroke drop-shadow-[0_0_15px_rgba(53,255,210,0.8)]">
+                    THE PROPHECY
+                </h2>
+                <p
+                    class="text-monarc-cyan font-bold uppercase tracking-widest text-sm bg-black/60 inline-block px-4 py-1 rounded-full border border-monarc-cyan/30">
+                    Roadmap to Total Domination (Or Lunch)
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+
+                <div class="relative group">
+                    <div class="md:hidden absolute left-8 top-0 bottom-0 w-1 bg-gray-800 -z-10"></div>
+
+                    <div
+                        class="bg-[#15151e]/90 backdrop-blur-md border-2 border-monarc-purple-start p-6 rounded-2xl hover:-translate-y-4 transition-transform duration-300 shadow-card-glow hover:shadow-[0_0_20px_#6B1FFF] h-full flex flex-col relative overflow-hidden">
+                        <div
+                            class="absolute -right-4 -top-4 text-8xl font-heading text-white opacity-5 select-none group-hover:opacity-10 transition">
+                            1</div>
+
+                        <div
+                            class="w-16 h-16 rounded-full bg-monarc-purple-start flex items-center justify-center text-3xl mb-4 border-4 border-black shadow-neon relative z-10">
+                            <img src="Image/1ststep.png" alt="Gas Icon" class="w-16 h-16 mb-4 mx-auto object-contain">
+                        </div>
+                        <h3 class="font-heading text-2xl text-white mb-2">The Glitch</h3>
+                        <p class="text-xs text-gray-400 font-mono mb-3">Q1 - ORIGIN</p>
+                        <ul class="text-sm text-gray-300 space-y-2 list-disc list-inside">
+                            <li>Joe trips into portal</li>
+                            <li>Accidental Contract Deploy</li>
+                            <li><span class="text-monarc-green line-through">Audit Code</span> (Lol no)</li>
+                            <li>Community Panic & Hype</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="relative group mt-8 md:mt-0 md:-translate-y-8">
+                    <div class="md:hidden absolute left-8 top-0 bottom-0 w-1 bg-gray-800 -z-10"></div>
+
+                    <div
+                        class="bg-[#15151e]/90 backdrop-blur-md border-2 border-monarc-cyan p-6 rounded-2xl hover:-translate-y-4 transition-transform duration-300 shadow-neon-text hover:shadow-[0_0_20px_#35FFD2] h-full flex flex-col relative overflow-hidden">
+                        <div
+                            class="absolute -right-4 -top-4 text-8xl font-heading text-white opacity-5 select-none group-hover:opacity-10 transition">
+                            2</div>
+
+                        <div
+                            class="w-16 h-16 rounded-full bg-monarc-cyan flex items-center justify-center text-3xl mb-4 border-4 border-black shadow-[0_0_15px_#35FFD2] relative z-10">
+                            <img src="Image/2ndstep.png" alt="Gas Icon" class="w-16 h-16 mb-4 mx-auto object-contain">
+                        </div>
+                        <h3 class="font-heading text-2xl text-white mb-2">The Coronation</h3>
+                        <p class="text-xs text-gray-400 font-mono mb-3">Q2 - WE ARE HERE</p>
+                        <ul class="text-sm text-gray-300 space-y-2 list-disc list-inside">
+                            <li>Badge Minting Live</li>
+                            <li>Discord Cult Formation</li>
+                            <li>First Meme Contest</li>
+                            <li>Ketchup Signature Event</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="relative group mt-8 md:mt-0">
+                    <div class="md:hidden absolute left-8 top-0 bottom-0 w-1 bg-gray-800 -z-10"></div>
+
+                    <div
+                        class="bg-[#15151e]/90 backdrop-blur-md border-2 border-monarc-pink p-6 rounded-2xl hover:-translate-y-4 transition-transform duration-300 hover:shadow-[0_0_20px_#FF4D9E] h-full flex flex-col relative overflow-hidden">
+                        <div
+                            class="absolute -right-4 -top-4 text-8xl font-heading text-white opacity-5 select-none group-hover:opacity-10 transition">
+                            3</div>
+
+                        <div
+                            class="w-16 h-16 rounded-full bg-monarc-pink flex items-center justify-center text-3xl mb-4 border-4 border-black shadow-lg relative z-10">
+                            <img src="Image/3rdstep.png" alt="Gas Icon" class="w-16 h-16 mb-4 mx-auto object-contain">
+                        </div>
+                        <h3 class="font-heading text-2xl text-white mb-2">The Expansion</h3>
+                        <p class="text-xs text-gray-400 font-mono mb-3">Q3 - INVASION</p>
+                        <ul class="text-sm text-gray-300 space-y-2 list-disc list-inside">
+                            <li>Sticker Market Open</li>
+                            <li>Cross-chain Trolling</li>
+                            <li>Partnership with [REDACTED]</li>
+                            <li>Gas Fee Rebates (Maybe)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="relative group mt-8 md:mt-0 md:-translate-y-8">
+                    <div
+                        class="bg-[#15151e]/90 backdrop-blur-md border-2 border-monarc-gold p-6 rounded-2xl hover:-translate-y-4 transition-transform duration-300 hover:shadow-[0_0_20px_#FFD166] h-full flex flex-col relative overflow-hidden">
+                        <div
+                            class="absolute -right-4 -top-4 text-8xl font-heading text-white opacity-5 select-none group-hover:opacity-10 transition">
+                            4</div>
+
+                        <div
+                            class="w-16 h-16 rounded-full bg-monarc-gold flex items-center justify-center text-3xl mb-4 border-4 border-black shadow-lg relative z-10">
+                            <img src="Image/4thstep.png" alt="Gas Icon" class="w-16 h-16 mb-4 mx-auto object-contain">
+                        </div>
+                        <h3 class="font-heading text-2xl text-monarc-gold mb-2">The Singularity</h3>
+                        <p class="text-xs text-gray-400 font-mono mb-3">Q4 - ENDGAME</p>
+                        <ul class="text-sm text-gray-300 space-y-2 list-disc list-inside">
+                            <li>Joe becomes Official Mascot</li>
+                            <li>Monadverse Supreme Court</li>
+                            <li>Portal to Real World</li>
+                            <li>We all buy islands</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="monarc-meme-section">
+        <h2 class="meme-title">Make Your Own Monarc Meme</h2>
+        <img src="Image/memebackground.png" alt="Gemini generated" class="absolute inset-0 w-full h-full object-cover"
+            style="position: center" ; opacity: 0.5;>
+
+
+        <div class="meme-marquee">
+            <!-- Original Set -->
+            <div class="meme-card"><img src="Image/meme1.png" alt="Meme"></div>
+            <div class="meme-card"><img src="Image/meme2.jpg" alt="Meme"></div>
+            <div class="meme-card"><img src="Image/meme3.jpg" alt="Meme"></div>
+            <div class="meme-card"><img src="Image/meme4.jpg" alt="Meme"></div>
+            <div class="meme-card"><img src="Image/meme5.png" alt="Meme"></div>
+            <div class="meme-card"><img src="Image/meme6.jpg" alt="Meme"></div>
+            <div class="meme-card"><img src="Image/meme4.png" alt="Meme"></div>
+            <div class="meme-card"><img src="Image/meme8.jpg" alt="Meme"></div>
+            <div class="meme-card"><img src="Image/meme9.jpg" alt="Meme"></div>
+            <div class="meme-card"><img src="Image/meme10.jpg" alt="Meme"></div>
+            <div class="meme-card"><img src="Image/meme11.jpg" alt="Meme"></div>
+            <div class="meme-card"><img src="Image/meme12.jpg" alt="Meme"></div>
+
+            <!-- Duplicated Set for Loop -->
+            <div class="meme-card"><img src="Image/meme1.png" alt="Meme"></div>
+            <div class="meme-card"><img src="Image/meme2.jpg" alt="Meme"></div>
+            <div class="meme-card"><img src="Image/meme3.jpg" alt="Meme"></div>
+            <div class="meme-card"><img src="Image/meme4.jpg" alt="Meme"></div>
+            <div class="meme-card"><img src="Image/meme5.png" alt="Meme"></div>
+            <div class="meme-card"><img src="Image/meme6.jpg" alt="Meme"></div>
+            <div class="meme-card"><img src="Image/meme4.png" alt="Meme"></div>
+            <div class="meme-card"><img src="Image/meme8.jpg" alt="Meme"></div>
+            <div class="meme-card"><img src="Image/meme9.jpg" alt="Meme"></div>
+            <div class="meme-card"><img src="Image/meme10.jpg" alt="Meme"></div>
+            <div class="meme-card"><img src="Image/meme11.jpg" alt="Meme"></div>
+            <div class="meme-card"><img src="Image/meme12.jpg" alt="Meme"></div>
+        </div>
+    </section>
+
+
+    <footer
+        class="py-24 bg-gradient-to-b from-monarc-dark to-[#1e0a2e] text-center border-t border-monarc-purple-start">
+        <div class="container mx-auto px-6">
+            <h2 class="font-heading text-5xl md:text-7xl text-white mb-8">Ready to Enter the Monadverse?</h2>
+            <div class="flex flex-col sm:flex-row justify-center gap-6 mb-12">
+                <button class="btn-portal px-10 py-5 rounded-full text-white font-heading text-2xl shadow-neon">
+                    Enter the Portal
+                </button>
+                <button
+                    class="px-10 py-5 rounded-full bg-[#5865F2] text-white font-heading text-2xl hover:bg-[#4752c4] transition shadow-lg flex items-center justify-center gap-2">
+                    Join the Court (X)
+                </button>
+            </div>
+            <p class="text-xs text-gray-500 font-mono">
+                Side effects: increased TPS, mild enlightenment, uncontrollable meme behavior.
+            </p>
+            <p class="text-[10px] text-gray-600 mt-4">© 2025 Monarc Project. Not Financial Advice. Just Vibes.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Remove intro portal after 3 seconds
+        setTimeout(() => {
+            const portal = document.getElementById('intro-portal');
+            if (portal) {
+                portal.style.opacity = '0';
+                setTimeout(() => {
+                    portal.remove();
+                }, 1000); // Wait for fade out transition
+            }
+        }, 3000);
+    </script>
+</body>
+
+</html>
