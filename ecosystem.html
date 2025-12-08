@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,32 +9,45 @@
     <link rel="apple-touch-icon" href="Image/3rdicon.png">
     <style>
         /* --- 1. CẤU HÌNH CƠ BẢN --- */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            background-color: #0f0f0f; /* Nền đen sâu */
+            background-color: #0f0f0f;
+            /* Nền đen sâu */
             color: #fff;
-            font-family: 'Courier New', Courier, monospace; /* Font kiểu code/retro */
-            overflow-x: hidden; /* Ẩn thanh cuộn ngang */
+            font-family: 'Courier New', Courier, monospace;
+            /* Font kiểu code/retro */
+            overflow-x: hidden;
+            /* Ẩn thanh cuộn ngang */
             min-height: 100vh;
         }
 
         /* --- 2. BACKGROUND CHAOS (GRID + FLYING MEMES) --- */
-        
+
         /* Container bao trùm toàn bộ nền */
         .chaos-bg-container {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             overflow: hidden;
-            z-index: -1; /* Nằm dưới cùng */
-            pointer-events: none; /* Không chặn click chuột */
+            z-index: -1;
+            /* Nằm dưới cùng */
+            pointer-events: none;
+            /* Không chặn click chuột */
         }
 
         /* Lớp lưới xanh mờ ảo */
         .bg-grid-overlay {
             position: absolute;
-            width: 100%; height: 100%;
-            background-image: 
+            width: 100%;
+            height: 100%;
+            background-image:
                 linear-gradient(rgba(0, 255, 0, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 255, 0, 0.03) 1px, transparent 1px);
             background-size: 40px 40px;
@@ -43,31 +57,83 @@
         .floating-item {
             position: absolute;
             display: block;
-            bottom: -200px; /* Xuất phát từ dưới đáy màn hình */
-            animation: floatUp linear infinite; /* Gọi animation bay lên */
+            bottom: -200px;
+            /* Xuất phát từ dưới đáy màn hình */
+            animation: floatUp linear infinite;
+            /* Gọi animation bay lên */
         }
 
         .floating-item img {
             width: 100%;
             height: auto;
-            opacity: 0.2; /* Độ mờ của ảnh nền (chỉnh thấp để không rối mắt) */
-            border-radius: 8px; /* Bo góc nhẹ cho giống thẻ bài */
-            box-shadow: 0 0 15px rgba(0,0,0,0.8);
-            filter: grayscale(20%); /* Giảm màu một chút cho đỡ chói */
+            opacity: 0.2;
+            /* Độ mờ của ảnh nền (chỉnh thấp để không rối mắt) */
+            border-radius: 8px;
+            /* Bo góc nhẹ cho giống thẻ bài */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+            filter: grayscale(20%);
+            /* Giảm màu một chút cho đỡ chói */
             display: block;
         }
 
         /* --- CẤU HÌNH NGẪU NHIÊN CHO CÁC ẢNH BAY (Vị trí, Kích thước, Tốc độ) --- */
         /* Anh có thể chỉnh 'width' để ảnh to nhỏ khác nhau */
-        
-        .floating-item:nth-child(2) { left: 10%; width: 80px; animation-duration: 18s; animation-delay: 0s; }
-        .floating-item:nth-child(3) { left: 25%; width: 60px; animation-duration: 25s; animation-delay: 5s; }
-        .floating-item:nth-child(4) { left: 40%; width: 100px; animation-duration: 20s; animation-delay: 2s; }
-        .floating-item:nth-child(5) { left: 55%; width: 70px; animation-duration: 15s; animation-delay: 8s; }
-        .floating-item:nth-child(6) { left: 70%; width: 90px; animation-duration: 22s; animation-delay: 1s; }
-        .floating-item:nth-child(7) { left: 85%; width: 65px; animation-duration: 19s; animation-delay: 6s; }
-        .floating-item:nth-child(8) { left: 5%;  width: 50px; animation-duration: 28s; animation-delay: 10s; }
-        .floating-item:nth-child(9) { left: 90%; width: 75px; animation-duration: 24s; animation-delay: 3s; }
+
+        .floating-item:nth-child(2) {
+            left: 10%;
+            width: 80px;
+            animation-duration: 18s;
+            animation-delay: 0s;
+        }
+
+        .floating-item:nth-child(3) {
+            left: 25%;
+            width: 60px;
+            animation-duration: 25s;
+            animation-delay: 5s;
+        }
+
+        .floating-item:nth-child(4) {
+            left: 40%;
+            width: 100px;
+            animation-duration: 20s;
+            animation-delay: 2s;
+        }
+
+        .floating-item:nth-child(5) {
+            left: 55%;
+            width: 70px;
+            animation-duration: 15s;
+            animation-delay: 8s;
+        }
+
+        .floating-item:nth-child(6) {
+            left: 70%;
+            width: 90px;
+            animation-duration: 22s;
+            animation-delay: 1s;
+        }
+
+        .floating-item:nth-child(7) {
+            left: 85%;
+            width: 65px;
+            animation-duration: 19s;
+            animation-delay: 6s;
+        }
+
+        .floating-item:nth-child(8) {
+            left: 5%;
+            width: 50px;
+            animation-duration: 28s;
+            animation-delay: 10s;
+        }
+
+        .floating-item:nth-child(9) {
+            left: 90%;
+            width: 75px;
+            animation-duration: 24s;
+            animation-delay: 3s;
+        }
 
         /* Animation Keyframes: Bay lên + Xoay */
         @keyframes floatUp {
@@ -75,10 +141,19 @@
                 transform: translateY(0) rotate(0deg);
                 opacity: 0;
             }
-            10% { opacity: 0.3; } /* Hiện rõ dần */
-            90% { opacity: 0.3; }
+
+            10% {
+                opacity: 0.3;
+            }
+
+            /* Hiện rõ dần */
+            90% {
+                opacity: 0.3;
+            }
+
             100% {
-                transform: translateY(-120vh) rotate(360deg); /* Bay quá màn hình */
+                transform: translateY(-120vh) rotate(360deg);
+                /* Bay quá màn hình */
                 opacity: 0;
             }
         }
@@ -94,7 +169,8 @@
         h1 {
             font-size: 3.5rem;
             text-transform: uppercase;
-            color: #b24bf3; /* Tím Monarc */
+            color: #b24bf3;
+            /* Tím Monarc */
             text-shadow: 4px 4px 0px #fff;
             margin-bottom: 15px;
             letter-spacing: -2px;
@@ -106,7 +182,8 @@
             max-width: 600px;
             margin: 0 auto;
             line-height: 1.6;
-            background: rgba(0,0,0,0.6); /* Nền đen mờ dưới chữ cho dễ đọc */
+            background: rgba(0, 0, 0, 0.6);
+            /* Nền đen mờ dưới chữ cho dễ đọc */
             padding: 10px;
             border-radius: 5px;
         }
@@ -116,7 +193,8 @@
             margin: 0 auto;
             padding: 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Tự động chia cột */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            /* Tự động chia cột */
             gap: 40px;
             padding-bottom: 100px;
             position: relative;
@@ -125,7 +203,8 @@
 
         /* Thẻ Card */
         .eco-card {
-            background: rgba(26, 26, 26, 0.9); /* Nền thẻ hơi trong suốt */
+            background: rgba(26, 26, 26, 0.9);
+            /* Nền thẻ hơi trong suốt */
             border: 2px solid #333;
             border-radius: 12px;
             padding: 30px;
@@ -133,7 +212,8 @@
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             cursor: pointer;
             overflow: hidden;
-            backdrop-filter: blur(5px); /* Làm mờ nền đằng sau thẻ */
+            backdrop-filter: blur(5px);
+            /* Làm mờ nền đằng sau thẻ */
         }
 
         .eco-card:hover {
@@ -155,37 +235,47 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        
-        .card-badge.live { background: #00ff66; color: #000; }
+
+        .card-badge.live {
+            background: #00ff66;
+            color: #000;
+        }
 
         /* Container hình tròn chứa ảnh */
         .card-icon {
-            width: 80px;  /* Tăng kích thước lên chút cho rõ ảnh */
+            width: 80px;
+            /* Tăng kích thước lên chút cho rõ ảnh */
             height: 80px;
-            background: #000; /* Nền đen để đỡ lộ nếu ảnh PNG trong suốt */
+            background: #000;
+            /* Nền đen để đỡ lộ nếu ảnh PNG trong suốt */
             border-radius: 50%;
             margin-bottom: 25px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid #444; /* Viền mặc định */
-            overflow: hidden; /* Cắt ảnh thừa ra ngoài hình tròn */
+            border: 2px solid #444;
+            /* Viền mặc định */
+            overflow: hidden;
+            /* Cắt ảnh thừa ra ngoài hình tròn */
             transition: all 0.3s ease;
         }
-        
+
         /* Style cho ảnh bên trong */
         .card-icon img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Quan trọng: Lấp đầy hình tròn mà không méo ảnh */
+            object-fit: cover;
+            /* Quan trọng: Lấp đầy hình tròn mà không méo ảnh */
             display: block;
         }
 
         /* Hiệu ứng khi di chuột vào thẻ Card */
         .eco-card:hover .card-icon {
             border-color: #fff;
-            box-shadow: 0 0 15px #b24bf3; /* Phát sáng màu tím */
-            transform: scale(1.1); /* Phóng to nhẹ cái icon lên */
+            box-shadow: 0 0 15px #b24bf3;
+            /* Phát sáng màu tím */
+            transform: scale(1.1);
+            /* Phóng to nhẹ cái icon lên */
         }
 
         .eco-card h3 {
@@ -199,7 +289,8 @@
             color: #aaa;
             line-height: 1.6;
             margin-bottom: 30px;
-            min-height: 80px; /* Giữ chiều cao đều nhau */
+            min-height: 80px;
+            /* Giữ chiều cao đều nhau */
         }
 
         .btn-launch {
@@ -221,24 +312,30 @@
         .eco-card:hover .btn-launch {
             background: #fff;
             color: #000;
-            box-shadow: 4px 4px 0px #b24bf3; /* Hiệu ứng nút bấm nổi */
+            box-shadow: 4px 4px 0px #b24bf3;
+            /* Hiệu ứng nút bấm nổi */
             border-color: #fff;
             transform: translate(-2px, -2px);
         }
 
         /* Responsive cho mobile */
         @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .eco-card { margin-bottom: 20px; }
-        }
+            h1 {
+                font-size: 2.5rem;
+            }
 
+            .eco-card {
+                margin-bottom: 20px;
+            }
+        }
     </style>
 </head>
+
 <body>
 
     <div class="chaos-bg-container">
         <div class="bg-grid-overlay"></div>
-        
+
         <div class="floating-item"><img src="Image/3rdicon.png" alt="bg-meme"></div>
         <div class="floating-item"><img src="Image/image1.png" alt="bg-meme"></div>
         <div class="floating-item"><img src="Image/1sticon.png" alt="bg-meme"></div>
@@ -258,53 +355,60 @@
 
         <div class="eco-card">
             <span class="card-badge live">Play Now</span>
-            
+
             <div class="card-icon">
                 <img src="Image/balldrop.webp" alt="Flappy Monarc Logo">
             </div>
-            
+
             <h3>Monarc Drop</h3>
-            <p>Drop the ball and pray to the RNG gods. Hit the legendary <strong>1000x multiplier</strong> or go home crying. Pure gravity, pure dopamine.</p>
-            <a href="#" class="btn-launch">Drop It</a>
+            <p>Drop the ball and pray to the RNG gods. Hit the legendary <strong>1000x multiplier</strong> or go home
+                crying. Pure gravity, pure dopamine.</p>
+            <a id="btn-game-drop" href="#" class="btn-launch">Drop It</a>
         </div>
 
         <div class="eco-card">
             <span class="card-badge live">Hot</span>
-            
+
             <div class="card-icon">
                 <img src="Image/openbox.webp" alt="Meme Maker Logo">
             </div>
-            
+
             <h3>Degen Chests</h3>
-            <p>Crack open the mystery box. Inside could be a life-changing <strong>500x gem</strong> or absolutely nothing. High risk, massive rewards.</p>
-            <a href="#" class="btn-launch">Open Now</a>
+            <p>Crack open the mystery box. Inside could be a life-changing <strong>500x gem</strong> or absolutely
+                nothing. High risk, massive rewards.</p>
+            <a id="btn-game-chests" href="#" class="btn-launch">Open Now</a>
         </div>
 
         <div class="eco-card">
             <span class="card-badge">Soon™</span>
-            
+
             <div class="card-icon">
                 <img src="Image/stake.webp" alt="Staking Logo">
             </div>
-            
+
             <h3>Staking Vault</h3>
-            <p>Lock your Monarc tokens and earn yield in... pure faith (and more tokens). Diamond hands only! Don't sell for ramen.</p>
-            <a href="#" class="btn-launch" style="opacity: 0.5; cursor: not-allowed;">Coming Soon</a>
+            <p>Lock your Monarc tokens and earn yield in... pure faith (and more tokens). Diamond hands only! Don't sell
+                for ramen.</p>
+            <a id="btn-game-staking" href="#" class="btn-launch" style="opacity: 0.5; cursor: not-allowed;">Coming
+                Soon</a>
         </div>
 
         <div class="eco-card">
             <span class="card-badge">???</span>
-            
+
             <div class="card-icon">
                 <img src="Image/wheel.webp" alt="Roulette Logo">
             </div>
-            
+
             <h3>Fortune Wheel</h3>
-            <p>Spin the wheel of destiny. Will you win the jackpot or get a 'Good Luck Next Time'? The ultimate test of luck is coming.</p>
-            <a href="#" class="btn-launch" style="opacity: 0.5; cursor: not-allowed;">Loading...</a>
+            <p>Spin the wheel of destiny. Will you win the jackpot or get a 'Good Luck Next Time'? The ultimate test of
+                luck is coming.</p>
+            <a id="btn-game-wheel" href="#" class="btn-launch" style="opacity: 0.5; cursor: not-allowed;">Loading...</a>
         </div>
 
     </div>
 
+    <script src="js/links.js"></script>
 </body>
+
 </html>
